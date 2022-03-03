@@ -1,55 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Text,
-  StatusBar,
+  Dimensions,
+  ScrollView,
   StyleSheet,
-  FlatList,
   SafeAreaView,
 } from 'react-native';
+import ElementReact from '../../components/ElementRect';
 
-const Details = () => {
 
-  const data = require('../../core/data.json');
+const Details = ({ route }) => {
 
-  const Item = ({ item }) => (
-    <View 
-      style={[
-        styles.item, 
-        { backgroundColor: item.cpkHexColor != "" ? `#${item.cpkHexColor}` : "grey" }]
-      }>
-      <Text style={styles.title}>{item.name}</Text>
-    </View>
-  );
-
-  const renderItem = ({ item }) => (
-    <Item item={item} />
-  );
+  //const data = require('../../core/data.json');
+  const { selected, hex } = route.params;
 
   return (
-    <SafeAreaView>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={item => item.atomicNumber}
-      />
+    <SafeAreaView
+      style={{
+        backgroundColor: hex != null ? `#${hex}` : "#A0AFB7",
+        flex: 1,
+      }}>
+      <ScrollView>
+        <ElementReact selected={selected}/>
+
+        <View
+          style={{
+            padding: 22,
+          }}>
+          <Text
+            style={{
+              alignSelf: 'center',
+              justifyContent: 'center',
+              fontWeight: 'bold',
+              fontSize: 18,
+              paddingBottom: 10,
+            }}>
+            Element Summary
+          </Text>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 16,
+            }}>
+            {selected.summary}
+          </Text>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
-  },
   item: {
-    backgroundColor: 'grey',
     padding: 10,
     marginVertical: 5,
     marginHorizontal: 22,
   },
-  title: {
-    fontSize: 32,
+  headerTitle: {
+    fontSize: 24,
+    paddingBottom: 10,
+    color: '#1D2326',
   },
 });
 
